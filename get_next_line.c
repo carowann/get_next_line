@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: caroline <caroline@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:48 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/10 17:55:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2024/12/10 23:00:35 by caroline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	line_read = NULL;
 	while (stash == NULL || ft_strchr(stash, '\n') == NULL)
 	{
+		line_read = NULL;
 		buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!buffer)
 			return (NULL);
@@ -50,6 +50,9 @@ char	*get_next_line(int fd)
 			stash = NULL;
 			return (NULL);
 		}
+		temp = stash;
+		free(stash);
+		stash = NULL;
 		stash = ft_strjoin(stash, buffer);
 		free(buffer);
 	}
@@ -75,9 +78,9 @@ int	main()
 	char	*line_read;
 
 	line_read = NULL;
-	fd = open("long_lines_test.txt", O_RDONLY);
+	fd = open("prova.txt", O_RDONLY);
 	//fd = -1;
-	//printf( "fd = %d\n", fd);
+	printf( "fd = %d\n", fd);
 	line_read = get_next_line(fd);
 	printf("Line read is: %s", line_read);
 	while (line_read != NULL)
