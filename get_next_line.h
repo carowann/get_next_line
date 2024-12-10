@@ -6,11 +6,11 @@
 /*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:22:10 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:13 by cwannhed         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:06:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
@@ -21,7 +21,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
-
 
 char	*get_next_line(int fd);
 void	*ft_memset(void *s, int c, size_t n);

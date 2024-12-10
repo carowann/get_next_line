@@ -6,7 +6,7 @@
 /*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:29:06 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:55:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
+
 void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, '\0', n);
@@ -40,11 +41,12 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ft_bzero(array, nmemb * size);
 	return (array);
 }
+
 char	*ft_strndup(const char *s, size_t n)
 {
 	char	*str;
 	size_t	i;
-	
+
 	str = (char *)ft_calloc(n + 1, sizeof(char));
 	if (!str)
 		return (NULL);
@@ -85,14 +87,17 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 	size_t	i;
 	size_t	j;
 
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s1)
+		return ((ft_strndup(s2, ft_strlen(s2))));
+	if (!s2)
+		return (ft_strndup(s1, ft_strlen(s1)));
 	str = (char *)ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
 	if (!str)
 		return (NULL);
