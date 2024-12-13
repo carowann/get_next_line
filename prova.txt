@@ -1,6 +1,13 @@
-apippooooo
+Questa e la prima riga.
 
-pluto
-e 
-paperino
-ultima RIGA
+
+Questa e una riga molto lunga che dovrebbe testare se il buffer di get_next_line funziona correttamente con linee di grandi dimensioni. Non dovrebbe andare in crash.
+
+Riga corta.
+
+
+    Riga con spazi iniziali.
+
+Simboli e numeri: @#$%^&*() 1234567890
+
+Riga finale senza newline

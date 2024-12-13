@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 18:20:48 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/13 14:19:34 by cwannhed         ###   ########.fr       */
+/*   Created: 2024/12/13 14:06:39 by cwannhed          #+#    #+#             */
+/*   Updated: 2024/12/13 16:26:57 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*handle_read_return(char **stash, char *buffer, int n_bytes)
 {
@@ -56,30 +56,38 @@ static char	*extract_line_from_stash(char **stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[4096];
 	char		*buffer;
 	char		*temp;
 	size_t		n_bytes;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	while (stash == NULL || ft_strchr(stash, '\n') == NULL)
+	while (stash[fd] == NULL || ft_strchr(stash[fd], '\n') == NULL)
 	{
 		buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!buffer)
 			return (NULL);
 		n_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (n_bytes <= 0)
-			return (handle_read_return(&stash, buffer, n_bytes));
-		temp = ft_strjoin(stash, buffer);
-		free(stash);
-		stash = temp;
+			return (handle_read_return(&(stash[fd]), buffer, n_bytes));
+		temp = ft_strjoin(stash[fd], buffer);
+		free(stash[fd]);
+		stash[fd] = temp;
 		free(buffer);
 	}
-	return (extract_line_from_stash(&stash));
+	return (extract_line_from_stash(&(stash[fd])));
 }
 
-int	main()
+int	main(int argc, char **argv)
+{
+	int	*fds;
+	
+	fds = (int *)ft_calloc((size))
+	free(fds);
+	return (0);
+}
+/* int	main()
 {
 	int		fd;
 	size_t	i;
@@ -105,7 +113,7 @@ int	main()
 		printf("Error on close()");
 		return (1);
 	}
-	printf ("closed fd");
+	printf ("\nClosed fd");
 	free(line_read);
 	return (0);
-}
+} */
