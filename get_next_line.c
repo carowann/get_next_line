@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:20:48 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/13 14:19:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:44:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*handle_read_return(char **stash, char *buffer, int n_bytes)
 		}
 	}
 	free (*stash);
-	stash = NULL;
+	*stash = NULL;
 	return (NULL);
 }
 
@@ -49,8 +49,8 @@ static char	*extract_line_from_stash(char **stash)
 		*stash = temp;
 		return (line_read);
 	}
-	free(stash);
-	stash = NULL;
+	free(*stash);
+	*stash = NULL;
 	return (line_read);
 }
 
@@ -63,7 +63,7 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	while (stash == NULL || ft_strchr(stash, '\n') == NULL)
+	while (!stash|| !ft_strchr(stash, '\n'))
 	{
 		buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!buffer)
@@ -79,25 +79,26 @@ char	*get_next_line(int fd)
 	return (extract_line_from_stash(&stash));
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	int		fd;
 	size_t	i;
 	char	*line_read;
 
+	if (argc != 2)
+	{
+		printf("Passare un file da leggere");
+		return (0);
+	}
 	i = 1;
 	line_read = NULL;
-	fd = open("prova.txt", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	//fd = -1;
 	printf( "fd = %d\n", fd);
-	line_read = get_next_line(fd);
-	printf("Line number %zu is: %s",i, line_read);
-	i++;
-	while (line_read != NULL)
+	while ((line_read = get_next_line(fd)) != NULL)
 	{
-		free(line_read);
-		line_read = get_next_line(fd);
 		printf("Line number %zu is: %s",i, line_read);
+		free(line_read);
 		i++;
 	}
 	if (close(fd) < 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 18:29:06 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/13 15:38:37 by cwannhed         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:38:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*ft_strndup(const char *s, size_t n)
 	char	*str;
 	size_t	i;
 
+	if (!s)
+		return (NULL);
 	str = (char *)ft_calloc(n + 1, sizeof(char));
 	if (!str)
 		return (NULL);
@@ -66,6 +68,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	unsigned char	chr;
 
+	if (!s)
+		return (NULL);
 	chr = (unsigned char)c;
 	while (*s)
 	{

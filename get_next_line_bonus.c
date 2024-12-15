@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: caroline <caroline@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:06:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2024/12/13 16:26:57 by cwannhed         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:18:30 by caroline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*handle_read_return(char **stash, char *buffer, int n_bytes)
 		}
 	}
 	free (*stash);
-	stash = NULL;
+	*stash = NULL;
 	return (NULL);
 }
 
@@ -49,8 +49,8 @@ static char	*extract_line_from_stash(char **stash)
 		*stash = temp;
 		return (line_read);
 	}
-	free(stash);
-	stash = NULL;
+	free(*stash);
+	*stash = NULL;
 	return (line_read);
 }
 
@@ -81,9 +81,59 @@ char	*get_next_line(int fd)
 
 int	main(int argc, char **argv)
 {
-	int	*fds;
+	int		*fds;
+	size_t	i;
+	size_t	j;
+	size_t	open_files;
+	char	*line_read;
 	
-	fds = (int *)ft_calloc((size))
+	i = 1;
+	j = 0;
+	open_files = 0;
+	fds = (int *)ft_calloc(argc - 1, sizeof(int));
+	if (!fds)
+		return (1);
+	while (j < (size_t)(argc - 1))
+	{
+		fds[j] = open(argv[j + 1], O_RDONLY);
+		if (fds[j] < 0)
+			printf("Error on open() of file %s\n", argv[j + 1]);
+		else
+			open_files++,
+		j++;
+	}
+	line_read = NULL;
+	while (open_files > 0)
+	{
+		j = 0;
+		while (j < (size_t)(argc - 1))
+		{
+			if (fds[j] >= 0)
+			{
+				line_read = get_next_line(fds[j]);
+				if (line_read)
+				{
+					printf("Line %zu read from fd: %d is: %s",i, fds[j], line_read );
+					free(line_read);
+				}
+				else
+				{
+					close(fds[j]);
+					fds[j] = -1;
+					open_files--;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	j = 0;
+	while (j < (size_t)(argc - 1))
+	{
+		if (fds[j] >= 0)
+			close(fds[j]);
+		j++;
+	}
 	free(fds);
 	return (0);
 }
