@@ -1,6 +1,0 @@
-questoo
-file
-
-NON
-finisce
-con una newline.......
